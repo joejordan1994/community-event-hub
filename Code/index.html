@@ -31,15 +31,21 @@
     <ul id="eventsList"></ul>
 
     <script>
+      const STORAGE_KEY = "communityEvents";
       const form = document.getElementById("eventForm");
       const list = document.getElementById("eventsList");
-      const events = [];
+
+      // Load saved events or start empty
+      const events = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      render();
 
       form.addEventListener("submit", (e) => {
         e.preventDefault();
         const name = document.getElementById("eventName").value;
         const date = document.getElementById("eventDate").value;
         events.push({ name, date });
+        // Persist immediately
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
         render();
         form.reset();
       });
